@@ -20,8 +20,8 @@ struct ImprintViewModel {
     var imprint: URLRequest? {
         guard let path = Bundle.main.url(forResource: "imprint",
                                          withExtension: "html")
-            else {
-                return nil
+        else {
+            return nil
         }
         return URLRequest(url: path)
     }

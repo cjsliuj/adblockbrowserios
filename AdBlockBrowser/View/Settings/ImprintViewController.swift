@@ -1,10 +1,19 @@
-//
-//  ImprintViewController.swift
-//  AdblockBrowser
-//
-//  Created by Andy Shephard on 09/11/2018.
-//  Copyright © 2018 eyeo GmbH. All rights reserved.
-//
+/*
+ * This file is part of Adblock Plus <https://adblockplus.org/>,
+ * Copyright (C) 2006-present eyeo GmbH
+ *
+ * Adblock Plus is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 3 as
+ * published by the Free Software Foundation.
+ *
+ * Adblock Plus is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Adblock Plus.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 import MessageUI
 import UIKit
@@ -38,18 +47,20 @@ class ImprintViewController: UIViewController, WKNavigationDelegate, MFMailCompo
         let mailScheme = "mailto"
         switch navigationAction.request.url?.scheme {
         case mailScheme?:
-            let composeVC = MFMailComposeViewController()
-            composeVC.mailComposeDelegate = self
-            composeVC.setToRecipients([viewModel!.eyeoInfoEmail])
-            composeVC.setSubject(viewModel!.mailSubject)
-            composeVC.setMessageBody(viewModel!.mailBody,
-                                     isHTML: false)
-            if MFMessageComposeViewController.canSendText() {
-                self.present(composeVC,
-                             animated: true,
-                             completion: nil)
+            if let uwViewModel = viewModel {
+                let composeVC = MFMailComposeViewController()
+                composeVC.mailComposeDelegate = self
+                composeVC.setToRecipients([uwViewModel.eyeoInfoEmail])
+                composeVC.setSubject(uwViewModel.mailSubject)
+                composeVC.setMessageBody(uwViewModel.mailBody,
+                                         isHTML: false)
+                if MFMessageComposeViewController.canSendText() {
+                    self.present(composeVC,
+                                 animated: true,
+                                 completion: nil)
+                }
+                decisionHandler(.cancel)
             }
-            decisionHandler(.cancel)
         default:
             decisionHandler(.allow)
         }
