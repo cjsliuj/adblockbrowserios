@@ -74,9 +74,11 @@ class ImprintViewController: UIViewController, WKNavigationDelegate, MFMailCompo
         webView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(webView)
         view.addConstraints(webView.sideMarginFullVertical(to: view))
-        guard let imprint = viewModel!.imprint else {
-            return
+        if let uwViewModel = viewModel {
+            guard let imprint = uwViewModel.imprint else {
+                return
+            }
+            webView.load(imprint)
         }
-        webView.load(imprint)
     }
 }
